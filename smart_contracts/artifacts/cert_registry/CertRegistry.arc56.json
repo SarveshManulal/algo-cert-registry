@@ -1,0 +1,164 @@
+{
+    "name": "CertRegistry",
+    "structs": {},
+    "methods": [
+        {
+            "name": "issue",
+            "args": [
+                {
+                    "type": "byte[]",
+                    "name": "cert_hash"
+                },
+                {
+                    "type": "string",
+                    "name": "holder"
+                }
+            ],
+            "returns": {
+                "type": "void"
+            },
+            "actions": {
+                "create": [],
+                "call": [
+                    "NoOp"
+                ]
+            },
+            "readonly": false,
+            "desc": "Register a 32-byte SHA-256 digest for a holder label.",
+            "events": [],
+            "recommendations": {}
+        },
+        {
+            "name": "verify",
+            "args": [
+                {
+                    "type": "byte[]",
+                    "name": "cert_hash"
+                }
+            ],
+            "returns": {
+                "type": "string"
+            },
+            "actions": {
+                "create": [],
+                "call": [
+                    "NoOp"
+                ]
+            },
+            "readonly": true,
+            "desc": "Return the holder label for a previously registered digest.",
+            "events": [],
+            "recommendations": {}
+        }
+    ],
+    "arcs": [
+        22,
+        28
+    ],
+    "desc": "Store SHA-256 certificate digests and their public holder labels.",
+    "networks": {},
+    "state": {
+        "schema": {
+            "global": {
+                "ints": 0,
+                "bytes": 0
+            },
+            "local": {
+                "ints": 0,
+                "bytes": 0
+            }
+        },
+        "keys": {
+            "global": {},
+            "local": {},
+            "box": {}
+        },
+        "maps": {
+            "global": {},
+            "local": {},
+            "box": {
+                "certs": {
+                    "keyType": "AVMBytes",
+                    "valueType": "string",
+                    "prefix": "Y2VydF8="
+                }
+            }
+        }
+    },
+    "bareActions": {
+        "create": [
+            "NoOp"
+        ],
+        "call": []
+    },
+    "sourceInfo": {
+        "approval": {
+            "sourceInfo": [
+                {
+                    "pc": [
+                        107
+                    ],
+                    "errorMessage": "Certificate hash already issued"
+                },
+                {
+                    "pc": [
+                        97,
+                        135
+                    ],
+                    "errorMessage": "Certificate hash must be 32 bytes"
+                },
+                {
+                    "pc": [
+                        143
+                    ],
+                    "errorMessage": "Certificate not found"
+                },
+                {
+                    "pc": [
+                        91
+                    ],
+                    "errorMessage": "Only the contract creator can issue certificates"
+                },
+                {
+                    "pc": [
+                        62,
+                        78,
+                        120
+                    ],
+                    "errorMessage": "invalid array length header"
+                },
+                {
+                    "pc": [
+                        69,
+                        85,
+                        127
+                    ],
+                    "errorMessage": "invalid number of bytes for arc4.dynamic_array<arc4.uint8>"
+                }
+            ],
+            "pcOffsetMethod": "none"
+        },
+        "clear": {
+            "sourceInfo": [],
+            "pcOffsetMethod": "none"
+        }
+    },
+    "source": {
+        "approval": "I3ByYWdtYSB2ZXJzaW9uIDExCiNwcmFnbWEgdHlwZXRyYWNrIGZhbHNlCgovLyBhbGdvcHkuYXJjNC5BUkM0Q29udHJhY3QuYXBwcm92YWxfcHJvZ3JhbSgpIC0+IHVpbnQ2NDoKbWFpbjoKICAgIGludGNibG9jayAwIDIgMzIgMQogICAgYnl0ZWNibG9jayAweDYzNjU3Mjc0NWYKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9jZXJ0X3JlZ2lzdHJ5L2NvbnRyYWN0LnB5OjQKICAgIC8vIGNsYXNzIENlcnRSZWdpc3RyeShBUkM0Q29udHJhY3QpOgogICAgdHhuIE51bUFwcEFyZ3MKICAgIGJ6IG1haW5fX19hbGdvcHlfZGVmYXVsdF9jcmVhdGVAMTEKICAgIHR4biBPbkNvbXBsZXRpb24KICAgICEKICAgIGFzc2VydAogICAgdHhuIEFwcGxpY2F0aW9uSUQKICAgIGFzc2VydAogICAgcHVzaGJ5dGVzcyAweDQyZGNhOWYyIDB4YmIzZmMxYWYgLy8gbWV0aG9kICJpc3N1ZShieXRlW10sc3RyaW5nKXZvaWQiLCBtZXRob2QgInZlcmlmeShieXRlW10pc3RyaW5nIgogICAgdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMAogICAgbWF0Y2ggaXNzdWUgdmVyaWZ5CiAgICBlcnIKCm1haW5fX19hbGdvcHlfZGVmYXVsdF9jcmVhdGVAMTE6CiAgICB0eG4gT25Db21wbGV0aW9uCiAgICAhCiAgICB0eG4gQXBwbGljYXRpb25JRAogICAgIQogICAgJiYKICAgIHJldHVybgoKCi8vIHNtYXJ0X2NvbnRyYWN0cy5jZXJ0X3JlZ2lzdHJ5LmNvbnRyYWN0LkNlcnRSZWdpc3RyeS5pc3N1ZVtyb3V0aW5nXSgpIC0+IHZvaWQ6Cmlzc3VlOgogICAgLy8gc21hcnRfY29udHJhY3RzL2NlcnRfcmVnaXN0cnkvY29udHJhY3QucHk6MTAKICAgIC8vIEBhcmM0LmFiaW1ldGhvZAogICAgdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMQogICAgZHVwCiAgICBpbnRjXzAgLy8gMAogICAgZXh0cmFjdF91aW50MTYgLy8gb24gZXJyb3I6IGludmFsaWQgYXJyYXkgbGVuZ3RoIGhlYWRlcgogICAgaW50Y18xIC8vIDIKICAgICsKICAgIGRpZyAxCiAgICBsZW4KICAgID09CiAgICBhc3NlcnQgLy8gaW52YWxpZCBudW1iZXIgb2YgYnl0ZXMgZm9yIGFyYzQuZHluYW1pY19hcnJheTxhcmM0LnVpbnQ4PgogICAgZXh0cmFjdCAyIDAKICAgIHR4bmEgQXBwbGljYXRpb25BcmdzIDIKICAgIGR1cAogICAgaW50Y18wIC8vIDAKICAgIGV4dHJhY3RfdWludDE2IC8vIG9uIGVycm9yOiBpbnZhbGlkIGFycmF5IGxlbmd0aCBoZWFkZXIKICAgIGludGNfMSAvLyAyCiAgICArCiAgICBkaWcgMQogICAgbGVuCiAgICA9PQogICAgYXNzZXJ0IC8vIGludmFsaWQgbnVtYmVyIG9mIGJ5dGVzIGZvciBhcmM0LmR5bmFtaWNfYXJyYXk8YXJjNC51aW50OD4KICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9jZXJ0X3JlZ2lzdHJ5L2NvbnRyYWN0LnB5OjEzCiAgICAvLyBhc3NlcnQgVHhuLnNlbmRlciA9PSBHbG9iYWwuY3JlYXRvcl9hZGRyZXNzLCAiT25seSB0aGUgY29udHJhY3QgY3JlYXRvciBjYW4gaXNzdWUgY2VydGlmaWNhdGVzIgogICAgdHhuIFNlbmRlcgogICAgZ2xvYmFsIENyZWF0b3JBZGRyZXNzCiAgICA9PQogICAgYXNzZXJ0IC8vIE9ubHkgdGhlIGNvbnRyYWN0IGNyZWF0b3IgY2FuIGlzc3VlIGNlcnRpZmljYXRlcwogICAgLy8gc21hcnRfY29udHJhY3RzL2NlcnRfcmVnaXN0cnkvY29udHJhY3QucHk6MTQKICAgIC8vIGFzc2VydCBjZXJ0X2hhc2gubGVuZ3RoID09IDMyLCAiQ2VydGlmaWNhdGUgaGFzaCBtdXN0IGJlIDMyIGJ5dGVzIgogICAgZGlnIDEKICAgIGxlbgogICAgaW50Y18yIC8vIDMyCiAgICA9PQogICAgYXNzZXJ0IC8vIENlcnRpZmljYXRlIGhhc2ggbXVzdCBiZSAzMiBieXRlcwogICAgLy8gc21hcnRfY29udHJhY3RzL2NlcnRfcmVnaXN0cnkvY29udHJhY3QucHk6MTUKICAgIC8vIGFzc2VydCBjZXJ0X2hhc2ggbm90IGluIHNlbGYuY2VydHMsICJDZXJ0aWZpY2F0ZSBoYXNoIGFscmVhZHkgaXNzdWVkIgogICAgYnl0ZWNfMCAvLyAweDYzNjU3Mjc0NWYKICAgIHVuY292ZXIgMgogICAgY29uY2F0CiAgICBkdXAKICAgIGJveF9sZW4KICAgIGJ1cnkgMQogICAgIQogICAgYXNzZXJ0IC8vIENlcnRpZmljYXRlIGhhc2ggYWxyZWFkeSBpc3N1ZWQKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9jZXJ0X3JlZ2lzdHJ5L2NvbnRyYWN0LnB5OjE2CiAgICAvLyBzZWxmLmNlcnRzW2NlcnRfaGFzaF0gPSBob2xkZXIKICAgIGR1cAogICAgYm94X2RlbAogICAgcG9wCiAgICBzd2FwCiAgICBib3hfcHV0CiAgICAvLyBzbWFydF9jb250cmFjdHMvY2VydF9yZWdpc3RyeS9jb250cmFjdC5weToxMAogICAgLy8gQGFyYzQuYWJpbWV0aG9kCiAgICBpbnRjXzMgLy8gMQogICAgcmV0dXJuCgoKLy8gc21hcnRfY29udHJhY3RzLmNlcnRfcmVnaXN0cnkuY29udHJhY3QuQ2VydFJlZ2lzdHJ5LnZlcmlmeVtyb3V0aW5nXSgpIC0+IHZvaWQ6CnZlcmlmeToKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy9jZXJ0X3JlZ2lzdHJ5L2NvbnRyYWN0LnB5OjE4CiAgICAvLyBAYXJjNC5hYmltZXRob2QocmVhZG9ubHk9VHJ1ZSkKICAgIHR4bmEgQXBwbGljYXRpb25BcmdzIDEKICAgIGR1cAogICAgaW50Y18wIC8vIDAKICAgIGV4dHJhY3RfdWludDE2IC8vIG9uIGVycm9yOiBpbnZhbGlkIGFycmF5IGxlbmd0aCBoZWFkZXIKICAgIGludGNfMSAvLyAyCiAgICArCiAgICBkaWcgMQogICAgbGVuCiAgICA9PQogICAgYXNzZXJ0IC8vIGludmFsaWQgbnVtYmVyIG9mIGJ5dGVzIGZvciBhcmM0LmR5bmFtaWNfYXJyYXk8YXJjNC51aW50OD4KICAgIGV4dHJhY3QgMiAwCiAgICAvLyBzbWFydF9jb250cmFjdHMvY2VydF9yZWdpc3RyeS9jb250cmFjdC5weToyMQogICAgLy8gYXNzZXJ0IGNlcnRfaGFzaC5sZW5ndGggPT0gMzIsICJDZXJ0aWZpY2F0ZSBoYXNoIG11c3QgYmUgMzIgYnl0ZXMiCiAgICBkdXAKICAgIGxlbgogICAgaW50Y18yIC8vIDMyCiAgICA9PQogICAgYXNzZXJ0IC8vIENlcnRpZmljYXRlIGhhc2ggbXVzdCBiZSAzMiBieXRlcwogICAgLy8gc21hcnRfY29udHJhY3RzL2NlcnRfcmVnaXN0cnkvY29udHJhY3QucHk6MjIKICAgIC8vIGFzc2VydCBjZXJ0X2hhc2ggaW4gc2VsZi5jZXJ0cywgIkNlcnRpZmljYXRlIG5vdCBmb3VuZCIKICAgIGJ5dGVjXzAgLy8gMHg2MzY1NzI3NDVmCiAgICBzd2FwCiAgICBjb25jYXQKICAgIGR1cAogICAgYm94X2xlbgogICAgYnVyeSAxCiAgICBhc3NlcnQgLy8gQ2VydGlmaWNhdGUgbm90IGZvdW5kCiAgICAvLyBzbWFydF9jb250cmFjdHMvY2VydF9yZWdpc3RyeS9jb250cmFjdC5weToyMwogICAgLy8gcmV0dXJuIHNlbGYuY2VydHNbY2VydF9oYXNoXQogICAgYm94X2dldAogICAgcG9wCiAgICAvLyBzbWFydF9jb250cmFjdHMvY2VydF9yZWdpc3RyeS9jb250cmFjdC5weToxOAogICAgLy8gQGFyYzQuYWJpbWV0aG9kKHJlYWRvbmx5PVRydWUpCiAgICBwdXNoYnl0ZXMgMHgxNTFmN2M3NQogICAgc3dhcAogICAgY29uY2F0CiAgICBsb2cKICAgIGludGNfMyAvLyAxCiAgICByZXR1cm4K",
+        "clear": "I3ByYWdtYSB2ZXJzaW9uIDExCiNwcmFnbWEgdHlwZXRyYWNrIGZhbHNlCgovLyBhbGdvcHkuYXJjNC5BUkM0Q29udHJhY3QuY2xlYXJfc3RhdGVfcHJvZ3JhbSgpIC0+IHVpbnQ2NDoKbWFpbjoKICAgIHB1c2hpbnQgMQogICAgcmV0dXJuCg=="
+    },
+    "byteCode": {
+        "approval": "CyAEAAIgASYBBWNlcnRfMRtBAB0xGRREMRhEggIEQtyp8gS7P8GvNhoAjgIACQBDADEZFDEYFBBDNhoBSSJZIwhLARUSRFcCADYaAkkiWSMISwEVEkQxADIJEkRLARUkEkQoTwJQSb1FARRESbxITL8lQzYaAUkiWSMISwEVEkRXAgBJFSQSRChMUEm9RQFEvkiABBUffHVMULAlQw==",
+        "clear": "C4EBQw=="
+    },
+    "compilerInfo": {
+        "compiler": "puya",
+        "compilerVersion": {
+            "major": 5,
+            "minor": 10,
+            "patch": 1
+        }
+    },
+    "events": [],
+    "templateVariables": {}
+}

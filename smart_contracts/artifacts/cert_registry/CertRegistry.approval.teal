@@ -1,0 +1,134 @@
+#pragma version 11
+#pragma typetrack false
+
+// algopy.arc4.ARC4Contract.approval_program() -> uint64:
+main:
+    intcblock 0 2 32 1
+    bytecblock 0x636572745f
+    // smart_contracts/cert_registry/contract.py:4
+    // class CertRegistry(ARC4Contract):
+    txn NumAppArgs
+    bz main___algopy_default_create@11
+    txn OnCompletion
+    !
+    assert
+    txn ApplicationID
+    assert
+    pushbytess 0x42dca9f2 0xbb3fc1af // method "issue(byte[],string)void", method "verify(byte[])string"
+    txna ApplicationArgs 0
+    match issue verify
+    err
+
+main___algopy_default_create@11:
+    txn OnCompletion
+    !
+    txn ApplicationID
+    !
+    &&
+    return
+
+
+// smart_contracts.cert_registry.contract.CertRegistry.issue[routing]() -> void:
+issue:
+    // smart_contracts/cert_registry/contract.py:10
+    // @arc4.abimethod
+    txna ApplicationArgs 1
+    dup
+    intc_0 // 0
+    extract_uint16 // on error: invalid array length header
+    intc_1 // 2
+    +
+    dig 1
+    len
+    ==
+    assert // invalid number of bytes for arc4.dynamic_array<arc4.uint8>
+    extract 2 0
+    txna ApplicationArgs 2
+    dup
+    intc_0 // 0
+    extract_uint16 // on error: invalid array length header
+    intc_1 // 2
+    +
+    dig 1
+    len
+    ==
+    assert // invalid number of bytes for arc4.dynamic_array<arc4.uint8>
+    // smart_contracts/cert_registry/contract.py:13
+    // assert Txn.sender == Global.creator_address, "Only the contract creator can issue certificates"
+    txn Sender
+    global CreatorAddress
+    ==
+    assert // Only the contract creator can issue certificates
+    // smart_contracts/cert_registry/contract.py:14
+    // assert cert_hash.length == 32, "Certificate hash must be 32 bytes"
+    dig 1
+    len
+    intc_2 // 32
+    ==
+    assert // Certificate hash must be 32 bytes
+    // smart_contracts/cert_registry/contract.py:15
+    // assert cert_hash not in self.certs, "Certificate hash already issued"
+    bytec_0 // 0x636572745f
+    uncover 2
+    concat
+    dup
+    box_len
+    bury 1
+    !
+    assert // Certificate hash already issued
+    // smart_contracts/cert_registry/contract.py:16
+    // self.certs[cert_hash] = holder
+    dup
+    box_del
+    pop
+    swap
+    box_put
+    // smart_contracts/cert_registry/contract.py:10
+    // @arc4.abimethod
+    intc_3 // 1
+    return
+
+
+// smart_contracts.cert_registry.contract.CertRegistry.verify[routing]() -> void:
+verify:
+    // smart_contracts/cert_registry/contract.py:18
+    // @arc4.abimethod(readonly=True)
+    txna ApplicationArgs 1
+    dup
+    intc_0 // 0
+    extract_uint16 // on error: invalid array length header
+    intc_1 // 2
+    +
+    dig 1
+    len
+    ==
+    assert // invalid number of bytes for arc4.dynamic_array<arc4.uint8>
+    extract 2 0
+    // smart_contracts/cert_registry/contract.py:21
+    // assert cert_hash.length == 32, "Certificate hash must be 32 bytes"
+    dup
+    len
+    intc_2 // 32
+    ==
+    assert // Certificate hash must be 32 bytes
+    // smart_contracts/cert_registry/contract.py:22
+    // assert cert_hash in self.certs, "Certificate not found"
+    bytec_0 // 0x636572745f
+    swap
+    concat
+    dup
+    box_len
+    bury 1
+    assert // Certificate not found
+    // smart_contracts/cert_registry/contract.py:23
+    // return self.certs[cert_hash]
+    box_get
+    pop
+    // smart_contracts/cert_registry/contract.py:18
+    // @arc4.abimethod(readonly=True)
+    pushbytes 0x151f7c75
+    swap
+    concat
+    log
+    intc_3 // 1
+    return
